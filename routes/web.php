@@ -55,8 +55,13 @@ Route::group(['middleware' => ['auth.users', 'admin']], function() {
 Route::group(['middleware' => ['auth.users', 'studentcounselors'], 'prefix' => 'studentcounselors'], function() {
 
 	// Dashboard student counselor
-	Route::get('/', 'StudentcounselorController@index');
-	// Management
+	Route::get('/', 'StudentCounselorController@index');
+	Route::get('/students', 'StudentCounselorController@students');
+    // Management
+    Route::group(['prefix' => 'schedules'], function() {
+	    Route::get('/', 'StudentCounselorController@schedules');
+        Route::get('/detail/{id}', 'StudentCounselorController@scheduleDetail');
+    });
 });
 
 
