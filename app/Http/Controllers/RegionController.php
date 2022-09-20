@@ -97,7 +97,7 @@ class RegionController extends Controller
      * @param  \App\region  $region
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, region $region)
+    public function update(Request $request, Region $region)
     {
         $request->validate([
             'region_name' => 'required',
@@ -116,7 +116,7 @@ class RegionController extends Controller
      * @param  \App\region  $region
      * @return \Illuminate\Http\Response
      */
-    public function destroy(region $region)
+    public function destroy(Region $region)
     {
         $region->delete();
 

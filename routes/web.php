@@ -38,6 +38,17 @@ Route::group(['middleware' => ['auth.users', 'admin']], function() {
 
     //siswa
     Route::resource('/students', StudentController::class);
+
+    //jadwal
+    Route::group(['prefix' => 'schedules'], function() {
+        Route::get('/', 'ScheduleController@index');
+        Route::get('/create-page', 'ScheduleController@create');
+        Route::post('/create', 'ScheduleController@store');
+        Route::get('/edit-page/{id}', 'ScheduleController@edit');
+        Route::patch('/update/{id}', 'ScheduleController@update');
+        Route::delete('/destroy/{id}', 'ScheduleController@destroy');
+    });
+
 });
 
 // student counselor

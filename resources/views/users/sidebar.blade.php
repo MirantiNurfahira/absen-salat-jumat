@@ -17,9 +17,10 @@
               <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="far fa fa-city"></i> <span>Data</span></a>
                 <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="{{ url('/mosques') }}">Data Masjid</a></li>   
-                  <li><a class="nav-link" href="{{ url('/regions') }}">Data Rayon</a></li>    
-                  <li><a class="nav-link" href="{{ url('/students') }}">Data Siswa</a></li>      
+                  <li><a class="nav-link" href="{{ url('/mosques') }}">Data Masjid</a></li>
+                  <li><a class="nav-link" href="{{ url('/regions') }}">Data Rayon</a></li>
+                  <li><a class="nav-link" href="{{ url('/students') }}">Data Siswa</a></li>
+                  <li><a class="nav-link" href="{{ url('/schedules') }}">Data Jadwal</a></li>
                 </ul>
               </li>
         </aside>
