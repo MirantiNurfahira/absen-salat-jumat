@@ -1,5 +1,5 @@
 @extends('users.dashboard_admin')
-  
+
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <br>  
+    <br>
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -22,10 +22,10 @@
             </ul>
         </div>
     @endif
-        
+
     <form action="{{ route('regions.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        
+
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
@@ -37,6 +37,7 @@
             <div class="form-group">
                <strong>Masjid:</strong>
                <select class="form-control" name="mosque_id">
+                   <option value="-" selected disabled>-</option>
                   @foreach ($mosques as $mosque)
                      <option value="{{ $mosque->id }}">{{ $mosque->mosque_name }}</option>
                   @endforeach
@@ -47,8 +48,9 @@
             <div class="form-group">
                <strong>Pembimbing Rayon:</strong>
                <select class="form-control" name="student_counselor_id">
-                  @foreach ($studentcounselors as $studentcounselor)
-                     <option value="{{ $studentcounselor->id }}">{{ $studentcounselor->studentcounselor }}</option>
+                <option value="-" selected disabled>-</option>
+                  @foreach ($studentCounselors as $studentcounselor)
+                     <option value="{{ $studentcounselor->id }}">{{ $studentcounselor->name }}</option>
                   @endforeach
                </select>
             </div>
@@ -57,8 +59,9 @@
             <div class="form-group">
                <strong>Guru Pendamping:</strong>
                <select class="form-control" name="prayer_counselor_id">
-                  @foreach ($prayercounselors as $prayercounselor)
-                     <option value="{{ $prayercounselor->id }}">{{ $prayercounselor->prayercounselor }}</option>
+                <option value="-" selected disabled>-</option>
+                  @foreach ($prayerCounselors as $prayercounselor)
+                     <option value="{{ $prayercounselor->id }}">{{ $prayercounselor->name }}</option>
                   @endforeach
                </select>
             </div>
@@ -67,6 +70,6 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
-        
+
     </form>
 @endsection

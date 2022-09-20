@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class presence extends Model
+class Presence extends Model
 {
     //
 }

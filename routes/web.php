@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function () {
-    return view('landingpage.index');
+    return redirect('/login');
 });
 
 // Auth
@@ -26,7 +26,7 @@ Route::group([], function () {
 	Route::get('logout', 'AuthController@Logout');
 });
 
-	
+
 // Users
 Route::group(['middleware' => ['auth.users', 'admin'], 'prefix' => 'users'], function() {
 
@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth.users', 'admin'], 'prefix' => 'users'], fun
 	Route::get('/edit/{id}', 'UsersController@edit');
 	Route::put('/edit/{id}', 'UsersController@Update')->name('UpdateProcess');
 	Route::delete('/delete/{id}', 'UsersController@Delete');
-	
+
 });
 
 //masjid
@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth.users', 'studentcounselors'], 'prefix' => '
 
 	// Dashboard student counselor
 	Route::get('/', 'StudentcounselorController@index');
-	// Management 
+	// Management
 });
 
 

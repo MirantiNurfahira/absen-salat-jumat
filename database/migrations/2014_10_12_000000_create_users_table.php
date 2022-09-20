@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['users', 'studentcounselor', 'prayercounselor']);
-            $table->enum('jabatan', ['users','studentcounselor', 'prayercounselor']);
             $table->string('no_phone');
             $table->timestamps();
         });

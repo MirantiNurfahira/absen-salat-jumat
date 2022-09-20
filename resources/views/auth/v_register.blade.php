@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('assets/css/all.css') }}" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
-  
+
     {{-- CSS Libraries --}}
     @yield('page-styles')
-  
+
     {{-- Template CSS  --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
@@ -23,7 +23,7 @@
       <div class="container mt-1">
         <div class="row">
           <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-           
+
 
             <div class="card card-primary shadow-dark rounded">
               <div class="card-header"><h4>Register</h4></div>
@@ -32,7 +32,7 @@
             @csrf
             @if (session('gagal'))
             <div class="alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button> 
+                <button type="button" class="close" data-dismiss="alert">×</button>
                 <strong>{{ session('gagal') }}</strong>
             </div>
             @endif
@@ -65,14 +65,6 @@
                                     <div class="form-group">
                                         <label>Role</label>
                                         <select class="form-control" name="role">
-                                            <option value="users">Admin</option>
-                                            <option value="studentcounselor">Guru Pembimbing</option>
-                                            <option value="prayercounselor">Pembimbing Rayon</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Jabatan</label>
-                                        <select class="form-control" name="jabatan">
                                             <option value="users">Admin</option>
                                             <option value="studentcounselor">Guru Pembimbing</option>
                                             <option value="prayercounselor">Pembimbing Rayon</option>
