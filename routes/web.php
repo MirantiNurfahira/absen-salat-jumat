@@ -49,6 +49,9 @@ Route::group(['middleware' => ['auth.users', 'admin']], function() {
         Route::delete('/destroy/{id}', 'ScheduleController@destroy');
     });
 
+    Route::get('/prayer-counselors', 'UsersController@prayerCounselorSchedules');
+    Route::get('/prayer-counselors/schedule/{scheduleId}', 'UsersController@scheduleDetail');
+
 });
 
 // student counselor

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Users;
 use App\Models\Attedances;
 use App\Models\Leaves;
+use App\Models\Region;
+use App\Schedule;
 use Carbon\Carbon;
 use DB;
 use Str;
@@ -115,5 +117,30 @@ class UsersController extends Controller
 			return redirect()->back();
 		}
 
-	}
+    }
+
+    public function prayerCounselorSchedules() {
+        $schedules = Schedule::all();
+
+        return view('users.schedules.prayercuntselor',compact('schedules'));
+    }
+
+    public function scheduleDetail($scheduleId)
+    {
+        $schedule = Schedule::findOrFail($scheduleId);
+
+        $user = Auth::guard('users')->user();
+
+        $regions = Region::where('prayer_counselor_id', $user->id)->get();
+
+        $prayerCounselors = Users::with(['presences' => function ($query) use ($scheduleId) {
+            $query->where('schedule_id', $scheduleId);
+        }], 'prayerCounselorRegions')
+        ->where('role', 'prayercounselor')->get();
+
+        return view('users.schedules.presences')
+            ->with('schedule', $schedule)
+            ->with('prayerCounselors', $prayerCounselors)
+            ->with('regions', $regions);
+    }
 }
