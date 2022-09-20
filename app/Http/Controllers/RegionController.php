@@ -12,7 +12,7 @@ class RegionController extends Controller
 {
     public function index()
     {
-        $regions = Region::with('mosque', 'studentcounselor', 'prayercounselor')->paginate(5);
+        $regions = Region::with('mosque', 'studentCounselor', 'prayerCounselor')->paginate(100);
 
         return view('users.regions.index',compact('regions'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -75,15 +75,19 @@ class RegionController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\region  $region
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(region $region)
+    public function edit($region)
     {
-        return view('users.regions.edit',compact('region'));
+        $region = Region::findOrFail($region);
+
+        $mosques = Mosque::all();
+        $studentCounselors = User::where('role', 'studentcounselor')->get();
+        $prayerCounselors = User::where('role', 'prayercounselor')->get();
+
+        return view('users.regions.edit')
+            ->with('mosques', $mosques)
+            ->with('studentCounselors', $studentCounselors)
+            ->with('prayerCounselors', $prayerCounselors)
+            ->with('region', $region);
     }
 
     /**

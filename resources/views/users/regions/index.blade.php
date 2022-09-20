@@ -46,8 +46,8 @@
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $region->region_name }}</td>
 								<td>{{ $region->mosque->mosque_name }}</td>
-								<td>{{ $region->studentcounselor->studentcounselor }}</td>
-								<td>{{ $region->prayercounselor->prayercounselor }}</td>
+								<td>{{ $region->studentCounselor->name }}</td>
+								<td>{{ $region->prayerCounselor->name }}</td>
                                 <td>
                                     <form action="{{ route('regions.destroy',$region->id) }}" method="POST">
                                         <a class="btn btn-primary" href="{{ route('regions.edit',$region->id) }}">Edit</a>
@@ -64,5 +64,5 @@
 </div>
 
     {!! $regions->links() !!}
-        
+
 @endsection

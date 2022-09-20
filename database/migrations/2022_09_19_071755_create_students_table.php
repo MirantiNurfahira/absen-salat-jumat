@@ -18,7 +18,7 @@ class CreateStudentsTable extends Migration
             $table->string('name');
             $table->integer('region_id')->nullable();
             $table->string('student_group');
-            $table->integer('nis');
+            $table->string('nis');
             $table->timestamps();
         });
     }

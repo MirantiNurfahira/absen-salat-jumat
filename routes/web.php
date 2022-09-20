@@ -3,16 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -36,17 +26,19 @@ Route::group(['middleware' => ['auth.users', 'admin'], 'prefix' => 'users'], fun
 	Route::post('/add', 'UsersController@Store');
 	Route::get('/edit/{id}', 'UsersController@edit');
 	Route::put('/edit/{id}', 'UsersController@Update')->name('UpdateProcess');
-	Route::delete('/delete/{id}', 'UsersController@Delete');
-
+    Route::delete('/delete/{id}', 'UsersController@Delete');
 });
 
-//masjid
-Route::resource('/mosques', MosqueController::class);
-//rayon
-Route::resource('/regions', RegionController::class);
-//siswa
-Route::resource('/students', StudentController::class);
+Route::group(['middleware' => ['auth.users', 'admin']], function() {
+    //masjid
+    Route::resource('/mosques', MosqueController::class);
+    //rayon
+    Route::get('/regions/{regionId}/edit', 'RegionController@edit');
+    Route::resource('/regions', RegionController::class);
 
+    //siswa
+    Route::resource('/students', StudentController::class);
+});
 
 // student counselor
 Route::group(['middleware' => ['auth.users', 'studentcounselors'], 'prefix' => 'studentcounselors'], function() {
@@ -62,3 +54,52 @@ Route::group(['middleware' => ['auth.users', 'prayercounselor'], 'prefix' => 'pr
 	// Dashboard staff
 	Route::get('/', 'PrayercounselorController@index');
 });
+
+/*
+███████████▓▓▓▓▓▓▓▓▒░░░░░▒▒░░░░░░░▓█████
+██████████▓▓▓▓▓▓▓▓▒░░░░░▒▒▒░░░░░░░░▓████
+█████████▓▓▓▓▓▓▓▓▒░░░░░░▒▒▒░░░░░░░░░▓███
+████████▓▓▓▓▓▓▓▓▒░░░░░░░▒▒▒░░░░░░░░░░███
+███████▓▓▓▓▓▓▓▓▒░░▒▓░░░░░░░░░░░░░░░░░███
+██████▓▓▓▓▓▓▓▓▒░▓████░░░░░▒▓░░░░░░░░░███
+█████▓▒▓▓▓▓▓▒░▒█████▓░░░░▓██▓░░░░░░░▒███
+████▓▒▓▒▒▒░░▒███████░░░░▒████░░░░░░░░███
+███▓▒▒▒░░▒▓████████▒░░░░▓████▒░░░░░░▒███
+██▓▒▒░░▒██████████▓░░░░░▓█████░░░░░░░███
+██▓▒░░███████████▓░░░░░░▒█████▓░░░░░░███
+██▓▒░▒██████████▓▒▒▒░░░░░██████▒░░░░░▓██
+██▓▒░░▒███████▓▒▒▒▒▒░░░░░▓██████▓░░░░▒██
+███▒░░░░▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░███████▓░░░▓██
+███▓░░░░░▒▒▒▓▓▒▒▒▒░░░░░░░░░██████▓░░░███
+████▓▒▒▒▒▓▓▓▓▓▓▒▒▓██▒░░░░░░░▓███▓░░░░███
+██████████▓▓▓▓▒▒█████▓░░░░░░░░░░░░░░████
+█████████▓▓▓▓▒▒░▓█▓▓██░░░░░░░░░░░░░█████
+███████▓▓▓▓▓▒▒▒░░░░░░▒░░░░░░░░░░░░██████
+██████▓▓▓▓▓▓▒▒░░░░░░░░░░░░░░░░▒▓████████
+██████▓▓▓▓▓▒▒▒░░░░░░░░░░░░░░░▓██████████
+██████▓▓▓▓▒▒██████▒░░░░░░░░░▓███████████
+██████▓▓▓▒▒█████████▒░░░░░░▓████████████
+██████▓▓▒▒███████████░░░░░▒█████████████
+██████▓▓░████████████░░░░▒██████████████
+██████▓░░████████████░░░░███████████████
+██████▓░▓███████████▒░░░████████████████
+██████▓░███████████▓░░░█████████████████
+██████▓░███████████░░░██████████████████
+██████▓▒██████████░░░███████████████████
+██████▒▒█████████▒░▓████████████████████
+██████░▒████████▓░██████████████████████
+██████░▓████████░███████████████████████
+██████░████████░▒███████████████████████
+█████▓░███████▒░████████████████████████
+█████▒░███████░▓████████████████████████
+█████░▒██████░░█████████████████████████
+█████░▒█████▓░██████████████████████████
+█████░▓█████░▒██████████████████████████
+█████░▓████▒░███████████████████████████
+█████░▓███▓░▓███████████████████████████
+██████░▓▓▒░▓████████████████████████████
+███████▒░▒██████████████████████████████
+████████████████████████████████████████
+████████████████████████████████████████
+I'm utterly dissapointed by how you treat her...
+*/
