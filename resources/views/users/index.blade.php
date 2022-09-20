@@ -4,7 +4,7 @@
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h4>Data Admin</h4>
+				<h4>Data User</h4>
 				<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal">Add</button>
 			</div>
 			<div class="card-body">
@@ -105,9 +105,8 @@
 								<label>Role</label>
 								<select class="form-control" id="role" name="role">
 									<option value="users">Users</option>
-									<option value="operator">Operator</option>
-									<option value="staff">Staff</option>
-									<option value="supervisor">Supervisor</option>
+									<option value="studentcounselor">Pembimbing Rayon</option>
+									<option value="prayercounselor">Guru Pendamping</option>
 								</select>
 							</div>		
 						</div>
@@ -115,17 +114,12 @@
 							<div class="form-group">
 								<label>Jabatan</label>
 								<select class="form-control" id="jabtan" name="jabatan">
-									<option value="operator">QC Lab.Technician</option>
-									<option value="staff">QC Staff</option>
-									<option value="supervisor">QA/QC Supervisor</option>
+								<option value="users">Users</option>
+									<option value="studentcounselor">Pembimbing Rayon</option>
+									<option value="prayercounselor">Guru Pendamping</option>
 								</select>
 							</div>		
 						</div>
-						<div class="col-lg-12 col-12">
-							<div class="form-group">
-								<label>Alamat</label>
-								<textarea class="form-control" type="text" name="address" id="address" required></textarea>
-							</div>
 							<div class="float-right">
 								<button type="submit" class="btn btn-sm btn-primary">Submit</button>
 							</div>	
@@ -175,10 +169,9 @@
 							<div class="form-group">
 								<label>Role</label>
 								<select class="form-control" id="role_d" name="role">
-									<option value="users">Users</option>
-									<option value="operator">Operator</option>
-									<option value="staff">Staff</option>
-									<option value="supervisor">Supervisor</option>
+								<option value="users">Users</option>
+									<option value="studentcounselor">Pembimbing Rayon</option>
+									<option value="prayercounselor">Guru Pendamping</option>
 								</select>
 							</div>		
 						</div>
@@ -186,17 +179,12 @@
 							<div class="form-group">
 							<label>Jabatan</label>
 								<select class="form-control" id="jabtan" name="jabatan">
-									<option value="operator">QC Lab. Technician</option>
-									<option value="staff">QC Staff</option>
-									<option value="supervisor">QA/QC Supervisor</option>
+								<option value="users">Users</option>
+									<option value="studentcounselor">Pembimbing Rayon</option>
+									<option value="prayercounselor">Guru Pendamping</option>
 								</select>
 							</div>		
 						</div>
-						<div class="col-lg-12 col-12">
-							<div class="form-group">
-								<label>Alamat</label>
-								<textarea class="form-control" type="text" name="address" id="address_d" required></textarea>
-							</div>
 							<div class="float-right">
 								<button type="submit" class="btn btn-sm btn-primary" id="btn-update">Update</button>
 							</div>	
@@ -226,7 +214,6 @@
 					$('#name_d').val(data.data.name);
 					$('#email_d').val(data.data.email);
 					$('#no_phone_d').val(data.data.no_phone);
-					$('#address_d').val(data.data.address);
 					$('#role_d').val(data.data.role);
 					$('#jabatan_d').val(data.data.jabatan);
 					$('#password_d').val(data.data.password);
@@ -247,7 +234,6 @@
 				name: $('#name_d').val(),
 				email: $('#email_d').val(),
 				no_phone: $('#no_phone_d').val(),
-				address: $('#address_d').val(),
 				role: $('#role_d').val(),
 				jabatan: $('#jabatan_d').val(),
 				password: $('#password_d').val(),

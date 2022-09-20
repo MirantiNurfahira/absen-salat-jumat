@@ -23,7 +23,7 @@ class AuthController extends Controller
 		$loginType = filter_var($this->request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
 		return [
-			$loginType => 'required|string',
+			'email' => 'required|string',
 			'password' => 'required|string'
 		];
 	}
@@ -34,7 +34,6 @@ class AuthController extends Controller
 			'name' => 'required|string',
 			'email' => 'required|string',
 			'password' => 'required|string',
-			'address' => 'required|string',
 			'no_phone' => 'required|string',
 			'role' => 'required|string',
 		];
@@ -62,7 +61,6 @@ class AuthController extends Controller
 				'name' => $request->name,
 				'email' => $request->email,
 				'password' => Hash::make($request->password),
-				'address' => $request->address,
 				'no_phone' => $request->no_phone,
 				'role' => $request->role,
 			]);
@@ -83,41 +81,23 @@ class AuthController extends Controller
 			$loginType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 			
 			$login_users = [
-				$loginType => $request->email,
+				'email' => $request->email,
 				'password' => $request->password,
-				'role' => 'users',
 			];
-			$login_operator = [
-				$loginType => $request->email,
-				'password' => $request->password,
-				'role' => 'operator',
-			];
-			$login_staff= [
-				$loginType => $request->email,
-				'password' => $request->password,
-				'role' => 'staff',
-			];
-
-			$login_supervisor = [
-				$loginType => $request->email,
-				'password' => $request->password,
-				'role' => 'supervisor',
-			];
-
 
 			$this->validate($request, $this->rules_login());
 
 			if (Auth::guard('users')->attempt($login_users)) {
+				$user = Auth::guard('users')->user();
 
-				return redirect('/users');
-			}elseif (Auth::guard('users')->attempt($login_operator)) {
-				return redirect('/operators');
-			}elseif (Auth::guard('users')->attempt($login_staff)) {
-				return redirect('/staffs');
-			}elseif (Auth::guard('users')->attempt($login_supervisor)) {
-				return redirect('/supervisors');
+				if ($user->role === 'users') {
+					return redirect('/users');
+				} else if ($user->role === 'studentcounselor') {
+					return redirect('/studentcounselors');
+				} else if ($user->role === 'prayercounselor') {
+					return redirect('/prayercounselors');
+				}
 			}
-
 			return redirect()->back()->with('gagal', 'Login Gagal');
 
 		} catch (Exception $e) {

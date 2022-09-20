@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,40 +37,28 @@ Route::group(['middleware' => ['auth.users', 'admin'], 'prefix' => 'users'], fun
 	Route::get('/edit/{id}', 'UsersController@edit');
 	Route::put('/edit/{id}', 'UsersController@Update')->name('UpdateProcess');
 	Route::delete('/delete/{id}', 'UsersController@Delete');
+	
+});
+
+//masjid
+Route::resource('/mosques', MosqueController::class);
+//rayon
+Route::resource('/regions', RegionController::class);
+//siswa
+Route::resource('/students', StudentController::class);
+
+
+// student counselor
+Route::group(['middleware' => ['auth.users', 'studentcounselors'], 'prefix' => 'studentcounselors'], function() {
+
+	// Dashboard student counselor
+	Route::get('/', 'StudentcounselorController@index');
+	// Management 
 });
 
 
-//ttdOp
-Route::get('/ttd_operator/{id}','OperatorController@ttd_operator')->name('ttd_operator');
-// Op
-Route::group(['middleware' => ['auth.users', 'operator'], 'prefix' => 'operators'], function() {
-
-	// Dashboard Op
-	Route::get('/', 'OperatorController@Home')->name('home');
-	// Management Op
-	Route::post('/add', 'OperatorController@Store');
-	Route::get('/edit/{id}', 'OperatorController@edit');
-	Route::put('/edit/{id}', 'OperatorController@Update');
-	Route::delete('/delete/{id}', 'OperatorController@Delete')->name('DeleteProcess');
-});
-
-//ttdStaff
-Route::get('/ttd_staff/{id}','StaffController@ttd_staff')->name('ttd_staff');
-//approve staff
-Route::get('/approve/{id}', 'StaffController@approve')->name('approve');
-//reject staff
-Route::get('/decline/{id}', 'StaffController@decline')->name('decline');
-// staff
-Route::group(['middleware' => ['auth.users', 'staff'], 'prefix' => 'staffs'], function() {
+//prayer counselor
+Route::group(['middleware' => ['auth.users', 'prayercounselor'], 'prefix' => 'prayercounselors'], function() {
 	// Dashboard staff
-	Route::get('/', 'StaffController@Home')->name('home');
-});
-
-
-//ttdSpv
-Route::get('/ttd_supervisor/{id}','SupervisorController@ttd_supervisor')->name('ttd_supervisor');
-// spv
-Route::group(['middleware' => ['auth.users', 'supervisor'], 'prefix' => 'supervisors'], function() {
-	// Dashboard spv
-	Route::get('/', 'SupervisorController@Home')->name('home');
+	Route::get('/', 'PrayercounselorController@index');
 });

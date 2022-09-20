@@ -66,22 +66,19 @@
                                         <label>Role</label>
                                         <select class="form-control" name="role">
                                             <option value="users">Admin</option>
+                                            <option value="studentcounselor">Guru Pembimbing</option>
+                                            <option value="prayercounselor">Pembimbing Rayon</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Jabatan</label>
                                         <select class="form-control" name="jabatan">
-                                            <option value="operator">Operator</option>
-                                            <option value="staff">Staff</option>
-                                            <option value="supervisor">Supervisor</option>
+                                            <option value="users">Admin</option>
+                                            <option value="studentcounselor">Guru Pembimbing</option>
+                                            <option value="prayercounselor">Pembimbing Rayon</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label>Alamat</label>
-                                        <textarea class="form-control" name="address"></textarea>
-                                    </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-success btn-lg btn-block">Register</button>
                                     </div>
