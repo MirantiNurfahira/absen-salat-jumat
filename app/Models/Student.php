@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-  
+
 
     protected $guarded = ['id'];
 
     public function region() {
         return $this->belongsTo(Region::class);
+    }
+
+    public function presences() {
+        return $this->hasMany(Presence::class);
     }
 }

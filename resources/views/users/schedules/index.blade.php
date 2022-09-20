@@ -38,21 +38,24 @@
                             <th>Tanggal</th>
                             <th>Action</th>
                         </tr>
-                        @foreach ($schedules as $schedule)
-                        <tbody>
-                            <tr>
-                                <td>{{ ++$i }}</td>
-                                <td>{{ $schedule->name }}</td>
-                                <td>{{ Carbon\Carbon::parse($schedule->schedule_date)->locale('id')->isoFormat('dddd, Do MMMM YYYY, h:mm:ss') }}</td>
-                                <td>
-                                    <form action="{{ URL::to('schedules/destroy/'.$schedule->id) }}" method="POST">
-                                        <a class="btn btn-primary" href="{{ URL::to('schedules/edit-page/'.$schedule->id) }}">Edit</a>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                    </tbody>
-					        @endforeach
+                    </thead>
+                    <tbody>
+                    @foreach ($schedules as $schedule)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $schedule->name }}</td>
+                            <td>{{ Carbon\Carbon::parse($schedule->schedule_date)->locale('id')->isoFormat('dddd, Do MMMM YYYY, h:mm:ss') }}</td>
+                            <td>
+                                <form action="{{ URL::to('schedules/destroy/'.$schedule->id) }}" method="POST">
+                                    <a class="btn btn-primary" href="{{ URL::to('schedules/edit-page/'.$schedule->id) }}">Edit</a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
 				</table>
 			</div>
 		</div>

@@ -76,7 +76,6 @@ class UsersController extends Controller
 					'email' => $request->email,
 					'no_phone' => $request->no_phone,
 					'role' => $request->role,
-					'jabatan' => $request->jabatan,
 					'password' => Hash::make($request->password),
 				]);
 
@@ -90,7 +89,6 @@ class UsersController extends Controller
 					'email' => $request->email,
 					'no_phone' => $request->no_phone,
 					'role' => $request->role,
-					'jabatan' => $request->jabatan,
 				]);
 
 				return response()->json(['code' => 200, 'data' => $update], 200);

@@ -63,7 +63,13 @@ Route::group(['middleware' => ['auth.users', 'studentcounselors'], 'prefix' => '
 //prayer counselor
 Route::group(['middleware' => ['auth.users', 'prayercounselor'], 'prefix' => 'prayercounselors'], function() {
 	// Dashboard staff
-	Route::get('/', 'PrayercounselorController@index');
+    Route::get('/', 'PrayerCounselorController@index');
+
+    Route::group(['prefix' => 'schedules'], function() {
+        Route::get('/detail/{id}', 'PrayerCounselorController@scheduleDetail');
+        Route::get('/{scheduleId}/presences/create', 'PrayerCounselorController@createPage');
+        Route::post('/{scheduleId}/presences/create', 'PrayerCounselorController@create');
+    });
 });
 
 /*
