@@ -41,15 +41,18 @@ class PrayerCounselorController extends Controller
         $regions = Region::where('prayer_counselor_id', $user->id)
             ->get();
 
-        $students = Student::whereIn('region_id', $regions->pluck('id'))
+        $groupedStudents = Student::whereIn('region_id', $regions->pluck('id'))
             ->with(['presences' => function ($query) use ($user, $scheduleId) {
                 $query->where('prayer_counselor_id', $user->id)->where('schedule_id', $scheduleId);
             }, 'region'])
-            ->orderBy('region_id', 'asc')
-            ->get();
+            ->orderBy('name', 'asc')
+            ->get()
+            ->mapToGroups(fn ($item) => [
+                $item['region']['region_name'] => $item
+            ]);
 
         return view('prayercounselors.presences')
-            ->with('students', $students)
+            ->with('groupedStudents', $groupedStudents)
             ->with('schedule', $schedule)
             ->with('regions', $regions);
     }
@@ -116,4 +119,7 @@ class PrayerCounselorController extends Controller
 
         return response()->json($presence);
     }
+
+
+    // ͕͗E͕͕͗͗r͕͕͗͗b͕͕͗͗l͕͕͗͗i͕͕͗͗c͕͕͗͗k͕͕͗͗e͕͕͗͗t͕͗ ͕͗D͕͕͗͗i͕͕͗͗e͕͗ ͕͗T͕͕͗͗o͕͕͗͗c͕͕͗͗h͕͕͗͗t͕͕͗͗e͕͕͗͗r͕͗ ͕͗D͕͕͗͗e͕͕͗͗s͕͗ ͕͗F͕͕͗͗i͕͕͗͗r͕͕͗͗m͕͕͗͗a͕͕͗͗m͕͕͗͗e͕͕͗͗n͕͕͗͗t͕͕͗͗s͕͗
 }
