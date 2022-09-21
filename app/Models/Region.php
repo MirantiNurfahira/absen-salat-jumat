@@ -19,4 +19,12 @@ class Region extends Model
     public function prayerCounselor() {
         return $this->belongsTo(Users::class, 'prayer_counselor_id', 'id');
     }
+
+    public function students() {
+        return $this->hasMany(Student::class);
+    }
+
+    public function presences() {
+        return $this->hasManyThrough(Presence::class, Student::class);
+    }
 }

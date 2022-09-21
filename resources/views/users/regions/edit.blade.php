@@ -39,6 +39,8 @@
             <div class="form-group">
                <strong>Masjid:</strong>
                <select class="form-control" name="mosque_id">
+                <option value="-" selected disabled>-</option>
+
                   @foreach ($mosques as $mosque)
                      <option value="{{ $mosque->id }}" @if ($region->mosque_id === $mosque->id) selected @endif >{{ $mosque->mosque_name }}</option>
                   @endforeach
@@ -49,6 +51,8 @@
             <div class="form-group">
                <strong>Pembimbing Rayon:</strong>
                <select class="form-control" name="student_counselor_id">
+                <option value="-" selected disabled>-</option>
+
                   @foreach ($studentCounselors as $studentcounselor)
                      <option value="{{ $studentcounselor->id }}" @if ($region->student_counselor_id === $studentcounselor->id) selected @endif>{{ $studentcounselor->name }}</option>
                   @endforeach
@@ -59,6 +63,8 @@
             <div class="form-group">
                <strong>Guru Pendamping:</strong>
                <select class="form-control" name="prayer_counselor_id">
+                <option value="-" selected disabled>-</option>
+
                   @foreach ($prayerCounselors as $prayercounselor)
                      <option value="{{ $prayercounselor->id }}" @if ($region->prayer_counselor_id === $prayercounselor->id) selected @endif>{{ $prayercounselor->name }}</option>
                   @endforeach

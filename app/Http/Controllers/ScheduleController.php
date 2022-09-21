@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mosque;
-use App\Schedule;
+use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -97,11 +97,15 @@ class ScheduleController extends Controller
      * @param  \App\mosque  $mosque
      * @return \Illuminate\Http\Response
      */
-    public function destroy(mosque $mosque)
+    public function destroy($scheduleId)
     {
-        $mosque->delete();
 
-        return redirect()->route('schedules.index')
+        $schedule = Schedule::findOrFail($scheduleId);
+
+        $schedule->presences()->delete();
+        $schedule->delete();
+
+        return redirect('/schedules')
                         ->with('success','Berhasil Hapus !');
 
     }

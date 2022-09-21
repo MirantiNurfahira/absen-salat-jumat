@@ -118,6 +118,9 @@ class RegionController extends Controller
      */
     public function destroy(Region $region)
     {
+
+        $region->presences()->delete();
+        $region->students()->delete();
         $region->delete();
 
         return redirect()->route('regions.index')

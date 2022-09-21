@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Users;
 use App\Models\Attedances;
 use App\Models\Leaves;
+use App\Models\Presence;
 use App\Models\Region;
 use App\Schedule;
 use Carbon\Carbon;
@@ -108,6 +109,14 @@ class UsersController extends Controller
 		$data = Users::find($id);
 
 		if ($data != null) {
+
+            Region::where('student_counselor_id', $data->id)
+                ->update(['student_counselor_id'=> null]);
+
+            Region::where('prayer_counselor_id', $data->id)
+                ->update(['prayer_counselor_id'=> null]);
+
+            $data->presences()->delete();
 
 			$data->delete();
 

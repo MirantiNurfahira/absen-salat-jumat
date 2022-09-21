@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mosque;
-
+use App\Models\Region;
 use Illuminate\Http\Request;
 
 class MosqueController extends Controller
@@ -96,6 +96,9 @@ class MosqueController extends Controller
      */
     public function destroy(Mosque $mosque)
     {
+        Region::where('mosque_id', $mosque->id)
+            ->update(['mosque_id' => null]);
+
         $mosque->delete();
 
         return redirect()->route('mosques.index')
