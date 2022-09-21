@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth.users', 'prayercounselor'], 'prefix' => 'pr
     Route::get('/', 'PrayerCounselorController@index');
 
     Route::group(['prefix' => 'schedules'], function() {
+        Route::post('/update', 'PrayerCounselorController@updatePresence');
         Route::get('/detail/{id}', 'PrayerCounselorController@scheduleDetail');
         Route::get('/{scheduleId}/presences/create', 'PrayerCounselorController@createPage');
         Route::post('/{scheduleId}/presences/create', 'PrayerCounselorController@create');
