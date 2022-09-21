@@ -7,16 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Region extends Model
 {
     protected $guarded = ['id'];
-   
+
     public function mosque() {
         return $this->belongsTo(Mosque::class);
     }
 
-    public function studentcounselor() {
+    public function studentCounselor() {
         return $this->belongsTo(Users::class, 'student_counselor_id', 'id');
     }
 
-    public function prayercounselor() {
+    public function prayerCounselor() {
         return $this->belongsTo(Users::class, 'prayer_counselor_id', 'id');
+    }
+
+    public function students() {
+        return $this->hasMany(Student::class);
+    }
+
+    public function presences() {
+        return $this->hasManyThrough(Presence::class, Student::class);
     }
 }

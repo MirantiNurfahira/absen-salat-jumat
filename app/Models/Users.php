@@ -16,4 +16,12 @@ class Users extends Authenticatable
     protected $table = "users";
     protected $fillable = ['email', 'password', 'name', 'no_phone', 'address', 'role', 'jabatan'];
     protected $hidden = ['password', 'remember_token'];
+
+    public function presences() {
+        return $this->hasMany(Presence::class, 'prayer_counselor_id', 'id');
+    }
+
+    public function prayerCounselorRegions() {
+        return $this->hasMany(Region::class, 'prayer_counselor_id', 'id');
+    }
 }

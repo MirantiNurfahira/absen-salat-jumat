@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mosque;
-use App\Models\Region;
+use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class MosqueController extends Controller
+class ScheduleController extends Controller
 {
     public function index()
     {
-        $mosques = Mosque::latest()->paginate(100);
+        $schedules = Schedule::latest()->paginate(100);
 
-        return view('users.mosques.index',compact('mosques'))
+        return view('users.schedules.index',compact('schedules'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -23,7 +24,7 @@ class MosqueController extends Controller
      */
     public function create()
     {
-        return view('users.mosques.create');
+        return view('users.schedules.create');
     }
 
     /**
@@ -34,15 +35,15 @@ class MosqueController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
 
-            'mosque_name' => 'required',
-            'location' => 'required',
-        ]);
+        $schedule = new Schedule;
 
-        Mosque::create($request->all());
+        $schedule->name = $request->name;
+        $schedule->schedule_date = Carbon::parse($request->date)->format('Y-m-d H:i:s');
 
-        return redirect()->route('mosques.index')
+        $schedule->save();
+
+        return redirect('/schedules')
                         ->with('success','Berhasil Menyimpan !');
     }
 
@@ -52,7 +53,7 @@ class MosqueController extends Controller
      * @param  \App\mosque  $mosque
      * @return \Illuminate\Http\Response
      */
-    public function show(Mosque $mosque)
+    public function show(mosque $mosque)
     {
         //
     }
@@ -63,9 +64,10 @@ class MosqueController extends Controller
      * @param  \App\mosque  $mosque
      * @return \Illuminate\Http\Response
      */
-    public function edit(Mosque $mosque)
+    public function edit($scheduleId)
     {
-        return view('users.mosques.edit',compact('mosque'));
+        $schedule = Schedule::findOrFail($scheduleId);
+        return view('users.schedules.edit',compact('schedule'));
     }
 
     /**
@@ -75,16 +77,17 @@ class MosqueController extends Controller
      * @param  \App\mosque  $mosque
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mosque $mosque)
+    public function update(Request $request, $scheduleId)
     {
-        $request->validate([
-            'mosque_name' => 'required',
-            'location' => 'required',
-        ]);
 
-        $mosque->update($request->all());
+        $schedule = Schedule::findOrFail($scheduleId);
 
-        return redirect()->route('mosques.index')
+        $schedule->name = $request->name;
+        $schedule->schedule_date = Carbon::parse($request->date)->format('Y-m-d H:i:s');
+
+        $schedule->save();
+
+        return redirect('/schedules')
                         ->with('success','Berhasil Update !');
     }
 
@@ -94,14 +97,15 @@ class MosqueController extends Controller
      * @param  \App\mosque  $mosque
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mosque $mosque)
+    public function destroy($scheduleId)
     {
-        Region::where('mosque_id', $mosque->id)
-            ->update(['mosque_id' => null]);
 
-        $mosque->delete();
+        $schedule = Schedule::findOrFail($scheduleId);
 
-        return redirect()->route('mosques.index')
+        $schedule->presences()->delete();
+        $schedule->delete();
+
+        return redirect('/schedules')
                         ->with('success','Berhasil Hapus !');
 
     }

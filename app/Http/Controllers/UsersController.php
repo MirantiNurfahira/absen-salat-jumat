@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Users;
 use App\Models\Attedances;
 use App\Models\Leaves;
+use App\Models\Presence;
+use App\Models\Region;
+use App\Schedule;
 use Carbon\Carbon;
 use DB;
 use Str;
@@ -22,7 +25,6 @@ class UsersController extends Controller
 			'email' => 'required|string',
 			'no_phone' => 'required|string',
 			'role' => 'required|string',
-			'jabatan' => 'required|string',
 			'password' => 'required|string',
 		];
 	}
@@ -32,7 +34,7 @@ class UsersController extends Controller
 	{
 		$users = Users::all();
 		return view('users.index', compact('users'));
-	}	
+	}
 
 	// Process Create Users
 	public function Store(Request $request)
@@ -40,18 +42,17 @@ class UsersController extends Controller
 		try {
 
 			$this->validate($request, $this->rules_add());
-			
+
 			Users::create([
 				'name' => $request->name,
 				'email' => $request->email,
 				'no_phone' => $request->no_phone,
 				'role' => $request->role,
-				'jabatan' => $request->jabatan,
 				'password' => Hash::make($request->password),
 			]);
 
 			return redirect()->back()->with('sukses', 'Berhasil Menambahkan Users');
-			
+
 		} catch (Exception $e) {
 
 			return redirect()->back()->with('gagal', 'Gagal Menambahkan Users');
@@ -70,7 +71,7 @@ class UsersController extends Controller
 	public function Update(Request $request, $id)
 	{
 		try {
-			
+
 			if ($request->password) {
 				$update = Users::findOrFail($id);
 				$update->update([
@@ -78,7 +79,6 @@ class UsersController extends Controller
 					'email' => $request->email,
 					'no_phone' => $request->no_phone,
 					'role' => $request->role,
-					'jabatan' => $request->jabatan,
 					'password' => Hash::make($request->password),
 				]);
 
@@ -92,15 +92,14 @@ class UsersController extends Controller
 					'email' => $request->email,
 					'no_phone' => $request->no_phone,
 					'role' => $request->role,
-					'jabatan' => $request->jabatan,
 				]);
 
 				return response()->json(['code' => 200, 'data' => $update], 200);
 			}
 
 		} catch (Exception $e) {
-			
-			return response()->json(['code' => 300, 'msg' => 'error'], 300);	
+
+			return response()->json(['code' => 300, 'msg' => 'error'], 300);
 		}
 	}
 
@@ -110,7 +109,15 @@ class UsersController extends Controller
 		$data = Users::find($id);
 
 		if ($data != null) {
-			
+
+            Region::where('student_counselor_id', $data->id)
+                ->update(['student_counselor_id'=> null]);
+
+            Region::where('prayer_counselor_id', $data->id)
+                ->update(['prayer_counselor_id'=> null]);
+
+            $data->presences()->delete();
+
 			$data->delete();
 
 			return redirect()->back();
@@ -119,5 +126,30 @@ class UsersController extends Controller
 			return redirect()->back();
 		}
 
-	}
+    }
+
+    public function prayerCounselorSchedules() {
+        $schedules = Schedule::all();
+
+        return view('users.schedules.prayercuntselor',compact('schedules'));
+    }
+
+    public function scheduleDetail($scheduleId)
+    {
+        $schedule = Schedule::findOrFail($scheduleId);
+
+        $user = Auth::guard('users')->user();
+
+        $regions = Region::where('prayer_counselor_id', $user->id)->get();
+
+        $prayerCounselors = Users::with(['presences' => function ($query) use ($scheduleId) {
+            $query->where('schedule_id', $scheduleId);
+        }], 'prayerCounselorRegions')
+        ->where('role', 'prayercounselor')->get();
+
+        return view('users.schedules.presences')
+            ->with('schedule', $schedule)
+            ->with('prayerCounselors', $prayerCounselors)
+            ->with('regions', $regions);
+    }
 }

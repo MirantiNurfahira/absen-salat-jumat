@@ -11,7 +11,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::with('region')->paginate(20);
-    
+
         return view('users.students.index',compact('students'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $regions = Region::all(); 
+        $regions = Region::all();
         return view('users.students.create',compact('regions', $regions));
 
     }
@@ -49,9 +49,9 @@ class StudentController extends Controller
         $student->name = $request->name;
         $student->student_group = $request->student_group;
         $student->region_id = $request->region_id;
-    
+
         $student->save();
-     
+
         return redirect()->route('students.index')
                         ->with('success','Berhasil Menyimpan !');
     }
@@ -75,7 +75,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $regions = Region::all(); 
+        $regions = Region::all();
         return view('users.students.edit',compact('student', 'regions'));
     }
 
@@ -88,17 +88,17 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-    
-        
+
+
         $request->validate([
             'nis' => 'required',
             'name' => 'required',
             'student_group' => 'required',
             'region_id' => 'required',
         ]);
-            
+
         $student->update($request->all());
-    
+
         return redirect()->route('students.index')
                         ->with('success','Berhasil Update !');
     }
@@ -111,8 +111,9 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
+        $student->presences()->delete();
         $student->delete();
-     
+
         return redirect()->route('students.index')
                         ->with('success','Berhasil Hapus !');
     }

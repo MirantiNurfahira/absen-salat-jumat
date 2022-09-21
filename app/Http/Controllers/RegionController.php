@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Region;
 use App\Models\Mosque;
+use App\Models\User;
 use App\Models\Users;
 use Illuminate\Http\Request;
 
@@ -11,8 +12,8 @@ class RegionController extends Controller
 {
     public function index()
     {
-        $regions = Region::with('mosque', 'studentcounselor', 'prayercounselor')->paginate(5);
-  
+        $regions = Region::with('mosque', 'studentCounselor', 'prayerCounselor')->paginate(100);
+
         return view('users.regions.index',compact('regions'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -24,7 +25,13 @@ class RegionController extends Controller
      */
     public function create()
     {
-        return view('users.regions.create');
+        $mosques = Mosque::all();
+        $studentCounselors = User::where('role', 'studentcounselor')->get();
+        $prayerCounselors = User::where('role', 'prayercounselor')->get();
+        return view('users.regions.create')
+            ->with('mosques', $mosques)
+            ->with('studentCounselors', $studentCounselors)
+            ->with('prayerCounselors', $prayerCounselors);
     }
 
     /**
@@ -36,23 +43,23 @@ class RegionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            
+
             'region_name' => 'required',
             'mosque_id' => 'required',
             'student_counselor_id' => 'required',
             'prayer_counselor_id' => 'required',
-            
+
         ]);
 
         $region = new Region;
 
         $region->region_name = $request->region_name;
-        $region->mosque_name = $request->mosque_id;
-        $region->studentcounselor = $request->student_counselor_id;
-        $region->prayercounselor = $request->prayer_counselor_id;
-    
+        $region->mosque_id = $request->mosque_id;
+        $region->student_counselor_id = $request->student_counselor_id;
+        $region->prayer_counselor_id = $request->prayer_counselor_id;
+
         $region->save();
-   
+
         return redirect()->route('regions.index')
                         ->with('success','Berhasil Menyimpan !');
     }
@@ -65,18 +72,22 @@ class RegionController extends Controller
      */
     public function show(region $region)
     {
-        //    
+        //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\region  $region
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(region $region)
+    public function edit($region)
     {
-        return view('users.regions.edit',compact('region'));
+        $region = Region::findOrFail($region);
+
+        $mosques = Mosque::all();
+        $studentCounselors = User::where('role', 'studentcounselor')->get();
+        $prayerCounselors = User::where('role', 'prayercounselor')->get();
+
+        return view('users.regions.edit')
+            ->with('mosques', $mosques)
+            ->with('studentCounselors', $studentCounselors)
+            ->with('prayerCounselors', $prayerCounselors)
+            ->with('region', $region);
     }
 
     /**
@@ -86,15 +97,15 @@ class RegionController extends Controller
      * @param  \App\region  $region
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, region $region)
+    public function update(Request $request, Region $region)
     {
         $request->validate([
             'region_name' => 'required',
-            
+
         ]);
-  
+
         $region->update($request->all());
-  
+
         return redirect()->route('regions.index')
                         ->with('success','Berhasil Update !');
     }
@@ -105,12 +116,15 @@ class RegionController extends Controller
      * @param  \App\region  $region
      * @return \Illuminate\Http\Response
      */
-    public function destroy(region $region)
+    public function destroy(Region $region)
     {
+
+        $region->presences()->delete();
+        $region->students()->delete();
         $region->delete();
-  
+
         return redirect()->route('regions.index')
                         ->with('success','Berhasil Hapus !');
-    
+
     }
 }

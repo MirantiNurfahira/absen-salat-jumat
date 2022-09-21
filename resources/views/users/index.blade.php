@@ -45,9 +45,10 @@
 							<td>{{ $loop->iteration }}</td>
 							<td>{{ $key->name }}</td>
 							<td>{{ $key->email }}</td>
-							<td align="center" class="d-flex">
-								<button class="btn btn-primary btn-sm open_modal_management" value="<?= $key->id?>"><i class="fas fa-pencil-alt"></i></button>
-
+							<td align="center" class="d-flex jusstify-content-around align-items-center">
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm open_modal_management" value="<?= $key->id?>"><i class="fas fa-pencil-alt"></i></button>
+                                </div>
 								<form action="{{ URL::to('/users/delete' ,$key->id) }}"  method="POST">
 									@csrf
 									@method('delete')
@@ -82,17 +83,17 @@
 								<label>Name</label>
 								<input class="form-control" type="text" name="name" id="name" required>
 								<input type="hidden" id="id_users" name="id_users">
-							</div>	
+							</div>
 							<div class="form-group">
 								<label>No Phone</label>
 								<input class="form-control" type="text" name="no_phone" id="no_phone" required>
-							</div>	
+							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
 								<label>Email</label>
 								<input class="form-control" type="email" name="email" id="email" required>
-							</div>	
+							</div>
 							<div class="form-group">
 								<label>Password</label>
 								<input class="form-control" type="text" name="password" id="password" required>
@@ -108,21 +109,11 @@
 									<option value="studentcounselor">Pembimbing Rayon</option>
 									<option value="prayercounselor">Guru Pendamping</option>
 								</select>
-							</div>		
-						</div>
-						<div class="col-lg-12">
-							<div class="form-group">
-								<label>Jabatan</label>
-								<select class="form-control" id="jabtan" name="jabatan">
-								<option value="users">Users</option>
-									<option value="studentcounselor">Pembimbing Rayon</option>
-									<option value="prayercounselor">Guru Pendamping</option>
-								</select>
-							</div>		
+							</div>
 						</div>
 							<div class="float-right">
 								<button type="submit" class="btn btn-sm btn-primary">Submit</button>
-							</div>	
+							</div>
 						</div>
 					</div>
 				</form>
@@ -147,17 +138,17 @@
 								<label>Name</label>
 								<input class="form-control" type="text" name="name" id="name_d" required>
 								<input type="hidden" id="id_users" name="id_users">
-							</div>	
+							</div>
 							<div class="form-group">
 								<label>No Phone</label>
 								<input class="form-control" type="text" name="no_phone" id="no_phone_d" required>
-							</div>	
+							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
 								<label>Email</label>
 								<input class="form-control" type="email" name="email" id="email_d" required>
-							</div>	
+							</div>
 							<div class="form-group">
 								<label>Password</label>
 								<input class="form-control" type="text" name="password" id="password_d" required>
@@ -173,21 +164,11 @@
 									<option value="studentcounselor">Pembimbing Rayon</option>
 									<option value="prayercounselor">Guru Pendamping</option>
 								</select>
-							</div>		
-						</div>
-						<div class="col-lg-12">
-							<div class="form-group">
-							<label>Jabatan</label>
-								<select class="form-control" id="jabtan" name="jabatan">
-								<option value="users">Users</option>
-									<option value="studentcounselor">Pembimbing Rayon</option>
-									<option value="prayercounselor">Guru Pendamping</option>
-								</select>
-							</div>		
+							</div>
 						</div>
 							<div class="float-right">
 								<button type="submit" class="btn btn-sm btn-primary" id="btn-update">Update</button>
-							</div>	
+							</div>
 						</div>
 					</div>
 				</form>
@@ -200,6 +181,10 @@
 @section('javascript')
 
 <script type="text/javascript">
+    $('.close').click(() => {
+        $('.alert').addClass('d-none');
+    })
+
 	$(document).ready(function() {
 		var my_url = '{{ env('BASE_URL') }}'
 
